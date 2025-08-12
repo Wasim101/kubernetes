@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-apps
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - image: nginx
+        name: nginx-container
+        env:
+        - name: GAME_NAME_PS5
+          valueFrom:
+            configMapKeyRef:
+              name: demo-configmap
+              key: GAME_NAME
+        envFrom:
+        - configMapRef:
+            name: demo-configmap      
+        volumeMounts:
+        - name: config
+          mountPath: /config/demo-configmap
+          readOnly: true
+        - name: config1
+          mountPath: /config/configmap-yaml
+          readOnly: true  
+      volumes:
+      - name: config
+        configMap:
+          name: demo-configmap
+          items:
+          - key: PLAYER_NAME
+            path: player_name.properties
+      - name: config1
+        configMap:      
+          name: new-cm  

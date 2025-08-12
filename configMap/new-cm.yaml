@@ -1,0 +1,13 @@
+apiVersion: v1
+data:
+  configmap.yaml: |-
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: demo-configmap
+    data:
+      GAME_NAME: Fifa25
+      PLAYER_NAME: "Jude Bellingham"
+kind: ConfigMap
+metadata:
+  name: new-cm
